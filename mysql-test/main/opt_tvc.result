@@ -621,9 +621,9 @@ SELECT * FROM t1 WHERE i IN (NULL, NULL, NULL, NULL, NULL);
 i
 EXPLAIN EXTENDED SELECT * FROM t1 WHERE i IN (NULL, NULL, NULL, NULL, NULL);
 id	select_type	table	type	possible_keys	key	key_len	ref	rows	filtered	Extra
-1	SIMPLE	t1	ALL	NULL	NULL	NULL	NULL	3	100.00	Using where
+1	SIMPLE	NULL	NULL	NULL	NULL	NULL	NULL	NULL	NULL	Impossible WHERE noticed after reading const tables
 Warnings:
-Note	1003	select `test`.`t1`.`i` AS `i` from `test`.`t1` where `test`.`t1`.`i` in (NULL,NULL,NULL,NULL,NULL)
+Note	1003	select NULL AS `i` from `test`.`t1` where 0
 SET in_predicate_conversion_threshold= 5;
 SELECT * FROM t1 WHERE i IN (NULL, NULL, NULL, NULL, NULL);
 i

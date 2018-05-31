@@ -29,6 +29,7 @@ SELECT i,SUBSTRING(a,1,10) FROM t1 where a like "%k" ORDER BY i;
 DELETE FROM t1 where a="";
 DELETE FROM t1 where a=(REPEAT('a',100));
 DELETE FROM t1 where a like "%v";
+ALTER TABLE t1 ANALYZE PARTITION p1;
 
 SELECT i,SUBSTRING(a,1,10) FROM t1 ORDER BY i;
 SELECT i,SUBSTRING(a,1,10) FROM t1 where a not like "%k" ORDER BY i;
