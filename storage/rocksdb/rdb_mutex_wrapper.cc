@@ -70,6 +70,7 @@ Status Rdb_cond_var::Wait(const std::shared_ptr<TransactionDBMutex> mutex_arg) {
 Status
 Rdb_cond_var::WaitFor(const std::shared_ptr<TransactionDBMutex> mutex_arg,
                       int64_t timeout_micros) {
+  THD *thd= current_thd;
   auto *mutex_obj = reinterpret_cast<Rdb_mutex *>(mutex_arg.get());
   DBUG_ASSERT(mutex_obj != nullptr);
 
@@ -86,11 +87,7 @@ Rdb_cond_var::WaitFor(const std::shared_ptr<TransactionDBMutex> mutex_arg,
   PSI_stage_info old_stage;
   mysql_mutex_assert_owner(mutex_ptr);
 
-  if (current_thd && mutex_obj->m_old_stage_info.count(current_thd) == 0) {
-    THD_ENTER_COND(current_thd, &stage_waiting_on_row_lock2, &old_stage);
-    mutex_obj->set_unlock_action(&old_stage);
-  }
-
+  THD_ENTER_COND(thd, &stage_waiting_on_row_lock2, &old_stage);
 #endif
   bool killed = false;
 
@@ -99,10 +96,11 @@ Rdb_cond_var::WaitFor(const std::shared_ptr<TransactionDBMutex> mutex_arg,
                                             &wait_timeout);
 
 #ifndef STANDALONE_UNITTEST
-    if (current_thd)
-      killed= thd_killed(current_thd);
+    if (thd)
+      killed= thd_killed(thd);
 #endif
   } while (!killed && res == EINTR);
+  THD_EXIT_COND(thd, &old_stage);
 
   if (res || killed)
     return Status::TimedOut();
@@ -158,7 +156,6 @@ Rdb_mutex::~Rdb_mutex() { mysql_mutex_destroy(&m_mutex); }
 
 Status Rdb_mutex::Lock() {
   RDB_MUTEX_LOCK_CHECK(m_mutex);
-  DBUG_ASSERT(m_old_stage_info.count(current_thd) == 0);
   return Status::OK();
 }
 
@@ -176,29 +173,10 @@ Status Rdb_mutex::TryLockFor(int64_t timeout_time MY_ATTRIBUTE((__unused__))) {
   return Status::OK();
 }
 
-#ifndef STANDALONE_UNITTEST
-void Rdb_mutex::set_unlock_action(const PSI_stage_info *const old_stage_arg) {
-  DBUG_ASSERT(old_stage_arg != nullptr);
-
-  mysql_mutex_assert_owner(&m_mutex);
-  DBUG_ASSERT(m_old_stage_info.count(current_thd) == 0);
-
-  m_old_stage_info[current_thd] =
-      std::make_shared<PSI_stage_info>(*old_stage_arg);
-}
-#endif
-
 // Unlock Mutex that was successfully locked by Lock() or TryLockUntil()
 void Rdb_mutex::UnLock() {
 #ifndef STANDALONE_UNITTEST
-  if (m_old_stage_info.count(current_thd) > 0) {
-    const std::shared_ptr<PSI_stage_info> old_stage =
-        m_old_stage_info[current_thd];
-    m_old_stage_info.erase(current_thd);
-    mysql_mutex_unlock(&m_mutex);
-    THD_EXIT_COND(current_thd, old_stage.get());
-    return;
-  }
+  mysql_mutex_unlock(&m_mutex);
 #endif
   RDB_MUTEX_UNLOCK_CHECK(m_mutex);
 }

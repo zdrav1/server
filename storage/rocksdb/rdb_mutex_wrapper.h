@@ -64,11 +64,6 @@ public:
 private:
   mysql_mutex_t m_mutex;
   friend class Rdb_cond_var;
-
-#ifndef STANDALONE_UNITTEST
-  void set_unlock_action(const PSI_stage_info *const old_stage_arg);
-  std::unordered_map<THD *, std::shared_ptr<PSI_stage_info>> m_old_stage_info;
-#endif
 };
 
 class Rdb_cond_var : public rocksdb::TransactionDBCondVar {
