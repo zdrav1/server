@@ -286,10 +286,58 @@ void mdev14014()
 }
 
 
+void mdev10963()
+{
+  int res;
+  int n_frag_max= 64;
+  int n_checks= 8;
+  uchar buf[1024 * 512];
+  FILE *file;
+  myf my_flags= MYF(MY_WME);
+  const char *file_name="cache.log";
+
+  memset(buf, FILL, sizeof(buf));
+  diag("MDEV-10963 Fragmented BINLOG query");
+
+  init_io_cache_encryption();
+
+  /* copying source */
+  res= open_cached_file(&info, 0, 0, CACHE_SIZE, 0);
+  ok(res == 0, "open_cached_file" INFO_TAIL);
+  res= my_b_write(&info, buf, sizeof(buf));
+
+  ulong saved_pos= my_b_tell(&info);
+  ok(res == 0 && saved_pos == sizeof(buf), "cache is written");
+
+  /* destination */
+  file= my_fopen(file_name, O_RDWR | O_TRUNC | O_CREAT, my_flags);
+  ok(my_fileno(file) > 0, "opened file fd = %d", my_fileno(file));
+
+  /*
+    For number of 'n_checks' times verify copying with random fragment
+    quantity which also cover cases when the fragment size is less than the
+    cache read buffer size.
+  */
+  for (; n_checks; n_checks--, rewind(file))
+  {
+    int c_frag= rand() % n_frag_max + 1;
+
+    res= my_b_copy_to_file_frag(&info, file, c_frag,
+                                NULL, NULL, NULL, NULL, NULL);
+    ok(res == 0, "cache copied to file" INFO_TAIL);
+    ok(my_ftell(file, my_flags) == sizeof(buf), "file written in %d fragments", c_frag);
+    res= reinit_io_cache(&info, WRITE_CACHE, saved_pos, 0, 0);
+    ok(res == 0 && my_b_tell(&info) == sizeof(buf), "write cache state restored");
+  }
+  close_cached_file(&info);
+  my_fclose(file, my_flags);
+  my_delete(file_name, MYF(MY_WME));
+}
+
 int main(int argc __attribute__((unused)),char *argv[])
 {
   MY_INIT(argv[0]);
-  plan(51);
+  plan(78);
 
   /* temp files with and without encryption */
   encrypt_tmp_files= 1;
@@ -306,6 +354,7 @@ int main(int argc __attribute__((unused)),char *argv[])
   encrypt_tmp_files= 0;
 
   mdev14014();
+  mdev10963();
 
   my_end(0);
   return exit_status();

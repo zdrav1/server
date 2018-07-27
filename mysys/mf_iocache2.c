@@ -22,13 +22,23 @@
 #include <stdarg.h>
 #include <m_ctype.h>
 
-/*
+/**
   Copy contents of an IO_CACHE to a file.
 
   SYNOPSIS
-    my_b_copy_to_file()
-    cache  IO_CACHE to copy from
-    file   File to copy to
+    my_b_copy_to_file_frag
+
+    cache                    IO_CACHE to copy from
+    file                     File to copy to
+    n_frag                   # of fragments
+
+    Other arguments represent format strings to enable wrapping
+    of the fragments and their total, including
+
+    before_frag              before a fragment
+    after_frag               after a fragment
+    after_last_frag          after all the fragments
+    final_per_frag           in the end per each fragment
 
   DESCRIPTION
     Copy the contents of the cache to the file. The cache will be
@@ -38,33 +48,120 @@
     If a failure to write fully occurs, the cache is only copied
     partially.
 
-  TODO
-    Make this function solid by handling partial reads from the cache
-    in a correct manner: it should be atomic.
+    The copying is made in so many steps as the number of fragments as
+    specified by the parameter 'n_frag'.  Each step is wrapped with
+    writing to the file 'before_frag' and 'after_frag' formated
+    strings, unless the parameters are NULL. In the end, optionally,
+    first 'after_last_frag' string is appended to 'file' followed by
+    'final_per_frag' per each fragment.
+    final item.
 
   RETURN VALUE
     0  All OK
     1  An error occurred
+
+  TODO
+    Make this function solid by handling partial reads from the cache
+    in a correct manner: it should be atomic.
 */
 int
-my_b_copy_to_file(IO_CACHE *cache, FILE *file)
+my_b_copy_to_file_frag(IO_CACHE *cache, FILE *file,
+                       uint n_frag,
+                       const char* before_frag,
+                       const char* after_frag,
+                       const char* after_last,
+                       const char* final_per_frag,
+                       char* buf)
 {
-  size_t bytes_in_cache;
-  DBUG_ENTER("my_b_copy_to_file");
+  size_t bytes_in_cache;         // block, may have short size in the last one
+  size_t written_off_last_block; // consumed part of the block by last fragment
+  size_t total_size= my_b_tell(cache);
+  size_t frag_size= total_size / n_frag + 1;
+  size_t total_written= 0;
+  size_t frag_written;           // bytes collected in the current fragment
+  uint i;
+
+  DBUG_ENTER("my_b_copy_to_file_frag");
+
+  DBUG_ASSERT(cache->type == WRITE_CACHE);
 
   /* Reinit the cache to read from the beginning of the cache */
   if (reinit_io_cache(cache, READ_CACHE, 0L, FALSE, FALSE))
     DBUG_RETURN(1);
-  bytes_in_cache= my_b_bytes_in_cache(cache);
-  do
+
+  for (i= 0, written_off_last_block= 0, bytes_in_cache= my_b_bytes_in_cache(cache);
+       i < n_frag;
+       i++, total_written += frag_written)
   {
-    if (my_fwrite(file, cache->read_pos, bytes_in_cache,
-                  MYF(MY_WME | MY_NABP)) == (size_t) -1)
-      DBUG_RETURN(1);
-  } while ((bytes_in_cache= my_b_fill(cache)));
-  if(cache->error == -1)
-    DBUG_RETURN(1);
-  DBUG_RETURN(0);
+       frag_written= 0;
+       if (before_frag)
+       {
+            sprintf(buf, before_frag, i);
+            my_fwrite(file, (uchar*) buf, strlen(buf), MYF(MY_WME | MY_NABP));
+       }
+       do
+       {
+            /*
+              Either the current block is the last (L) in making the
+              current fragment (and possibly has some extra not to fit (LG) into
+              the fragment), or (I) the current (whole then) block is
+              intermediate.
+            */
+            size_t block_to_write= (frag_written + bytes_in_cache >= frag_size) ?
+                 frag_size - frag_written : bytes_in_cache;
+
+            DBUG_ASSERT(n_frag != 1 ||
+                        (block_to_write == bytes_in_cache &&
+                         written_off_last_block == 0));
+
+            if (my_fwrite(file, cache->read_pos + written_off_last_block,
+                          block_to_write,
+                          MYF(MY_WME | MY_NABP)) == (size_t) -1)
+                 /* no cache->error is set here */
+                 DBUG_RETURN(1);
+
+            frag_written += block_to_write;
+            if (frag_written == frag_size)                 // (L)
+            {
+                 DBUG_ASSERT(block_to_write <= bytes_in_cache);
+                 written_off_last_block= block_to_write;
+                 bytes_in_cache -= written_off_last_block; // (LG) when bytes>0
+                 /*
+                   Nothing should be left in cache at the end of the
+                   last fragment construction.
+                 */
+                 DBUG_ASSERT(i != n_frag - 1 || bytes_in_cache == 0);
+
+                 break;
+            }
+            else
+            {
+                 written_off_last_block= 0; // (I)
+            }
+       } while ((bytes_in_cache= my_b_fill(cache)));
+
+       if (after_frag)
+       {
+            sprintf(buf, after_frag, NULL);
+            my_fwrite(file, (uchar*) buf, strlen(buf), MYF(MY_WME | MY_NABP));
+       }
+  }
+
+  DBUG_ASSERT(total_written == total_size); // output == input
+
+  if (after_last)
+  {
+       sprintf(buf, after_last, n_frag);
+       my_fwrite(file, (uchar*) buf, strlen(buf), MYF(MY_WME | MY_NABP));
+  }
+
+  for (i= 0; final_per_frag && i < n_frag ; i++)
+  {
+       sprintf(buf, final_per_frag, i);
+       my_fwrite(file, (uchar*) buf, strlen(buf), MYF(MY_WME | MY_NABP));
+  }
+
+  DBUG_RETURN(cache->error == -1);
 }
 
 

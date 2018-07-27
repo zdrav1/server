@@ -1179,6 +1179,7 @@ bool my_yyoverflow(short **a, YYSTYPE **b, ulong *yystacksize);
 %token  DECLARE_SYM                   /* SQL-2003-R */
 %token  DEFAULT                       /* SQL-2003-R */
 %token  DEFINER_SYM
+%token  DEFRAGMENT_SYM                /* MYSQL */
 %token  DELAYED_SYM
 %token  DELAY_KEY_WRITE_SYM
 %token  DELETE_SYM                    /* SQL-2003-R */
@@ -7951,7 +7952,15 @@ binlog_base64_event:
             Lex->sql_command = SQLCOM_BINLOG_BASE64_EVENT;
             Lex->comment= $2;
           }
-        ;
+          |
+          BINLOG_SYM DEFRAGMENT_SYM '(' '@' ident_or_text ',' '@' ident_or_text ')'
+          {
+            Lex->sql_command = SQLCOM_BINLOG_BASE64_EVENT;
+            Lex->fragmented_binlog_event.n_frag= 2;
+            Lex->fragmented_binlog_event.frag_name[0]= $5;
+            Lex->fragmented_binlog_event.frag_name[1]= $8;
+          }
+         ;
 
 check_view_or_table:
           table_or_tables table_list opt_mi_check_type
@@ -14038,6 +14047,7 @@ keyword_sp:
         | DATE_SYM                 {}
         | DAY_SYM                  {}
         | DEFINER_SYM              {}
+        | DEFRAGMENT_SYM           {}
         | DELAY_KEY_WRITE_SYM      {}
         | DES_KEY_FILE             {}
         | DIAGNOSTICS_SYM          {}

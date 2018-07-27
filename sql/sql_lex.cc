@@ -746,6 +746,7 @@ void lex_start(THD *thd)
   lex->var_list.empty();
   lex->stmt_var_list.empty();
   lex->proc_list.elements=0;
+  lex->fragmented_binlog_event.n_frag= 0;
 
   lex->is_lex_started= TRUE;
   DBUG_VOID_RETURN;
@@ -2886,6 +2887,7 @@ LEX::LEX()
                       gtid_domain_static_buffer,
                       initial_gtid_domain_buffer_size,
                       initial_gtid_domain_buffer_size, 0);
+  fragmented_binlog_event.n_frag= 0;
 }
 
 

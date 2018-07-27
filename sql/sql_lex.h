@@ -2748,6 +2748,16 @@ public:
   Item *limit_rows_examined;
   ulonglong limit_rows_examined_cnt;
   /**
+    Describes fragmented version of BINLOG query: the total number of
+    the fragments and their names as ones of the user variables.
+  */
+  struct st_fragmented_binlog_event
+  {
+    static const uint max_frags=2;
+    uint n_frag;
+    LEX_STRING frag_name[max_frags];
+  } fragmented_binlog_event;
+  /**
     Holds a set of domain_ids for deletion at FLUSH..DELETE_DOMAIN_ID
   */
   DYNAMIC_ARRAY delete_gtid_domain;

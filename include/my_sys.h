@@ -602,7 +602,15 @@ static inline size_t my_b_bytes_in_cache(const IO_CACHE *info)
   return *info->current_end - *info->current_pos;
 }
 
-int      my_b_copy_to_file(IO_CACHE *cache, FILE *file);
+int
+my_b_copy_to_file_frag(IO_CACHE *cache, FILE *file,
+                       uint n_frag,
+                       const char* before_frag,
+                       const char* after_frag,
+                       const char* after_last,
+                       const char* final_per_frag,
+                       char* buf);
+
 my_off_t my_b_append_tell(IO_CACHE* info);
 my_off_t my_b_safe_tell(IO_CACHE* info); /* picks the correct tell() */
 int my_b_pread(IO_CACHE *info, uchar *Buffer, size_t Count, my_off_t pos);

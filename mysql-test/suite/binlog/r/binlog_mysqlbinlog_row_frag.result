@@ -1,0 +1,26 @@
+CREATE TABLE t (a TEXT);
+RESET MASTER;
+INSERT INTO t SET a=repeat('a', 1024);
+SELECT a from t into @a;
+FLUSH LOGS;
+DELETE FROM t;
+SELECT a LIKE @a as 'true' FROM t;
+true
+1
+SELECT @binlog_fragment_0, @binlog_fragment_1 as 'NULL';
+@binlog_fragment_0	NULL
+NULL	NULL
+BINLOG number-of-fragments must be exactly two
+BINLOG DEFRAGMENT(@binlog_fragment);
+ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ')' at line 1
+BINLOG DEFRAGMENT(@binlog_fragment, @binlog_fragment, @binlog_fragment);
+ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near ' @binlog_fragment)' at line 1
+SET @binlog_fragment_0='012345';
+SET @binlog_fragment_1='012345';
+BINLOG DEFRAGMENT(@binlog_fragment_0, @binlog_fragment_1);
+ERROR 42000: You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use
+SET @binlog_fragment_0='012345';
+BINLOG DEFRAGMENT(@binlog_fragment_0, @binlog_fragment_not_exist);
+ERROR HY000: Decoding of base64 string failed: BINLOG fragment user variable 'binlog_fragment_not_exist' has unexpectedly no value
+# Cleanup
+DROP TABLE t;

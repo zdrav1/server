@@ -1157,7 +1157,7 @@ public:
   void print_header(IO_CACHE* file, PRINT_EVENT_INFO* print_event_info,
                     bool is_more);
   void print_base64(IO_CACHE* file, PRINT_EVENT_INFO* print_event_info,
-                    bool is_more);
+                    bool do_print_encoded_base64);
 #endif
   /*
     read_log_event() functions read an event from a binlog or relay
@@ -4891,14 +4891,42 @@ public:
   virtual int get_data_size() { return IGNORABLE_HEADER_LEN; }
 };
 
+#ifdef MYSQL_CLIENT
+void copy_cache_to_file_wrapped(FILE *file,
+                                PRINT_EVENT_INFO *print_event_info,
+                                IO_CACHE *body,
+                                bool do_print_encoded);
+#endif
 
 static inline bool copy_event_cache_to_file_and_reinit(IO_CACHE *cache,
                                                        FILE *file)
 {
-  return         
-    my_b_copy_to_file(cache, file) ||
+  return
+    my_b_copy_to_file_frag(cache, file, 1, NULL, NULL, NULL, NULL, NULL) ||
     reinit_io_cache(cache, WRITE_CACHE, 0, FALSE, TRUE);
 }
+
+
+/**
+  Copying of 'cache' content to 'file' in steps of the number of
+  fragments as specified by 'n_frag'. Other arguments enables wrapping
+  of the fragments and total. See more in my_b_copy_to_file_frag() header comments.
+*/
+inline bool copy_cache_frag_to_file_and_reinit(IO_CACHE *cache,
+                                               FILE *file,
+                                               uint n_frag,
+                                               const char* before_frag,
+                                               const char* after_frag,
+                                               const char* after_last,
+                                               const char* final_per_frag,
+                                               char* buf)
+{
+  return
+    my_b_copy_to_file_frag(cache, file, n_frag, before_frag, after_frag,
+                           after_last, final_per_frag, buf) ||
+    reinit_io_cache(cache, WRITE_CACHE, 0, FALSE, TRUE);
+}
+
 
 #ifdef MYSQL_SERVER
 /*****************************************************************************
