@@ -3561,7 +3561,12 @@ void _ma_tmp_disable_logging_for_table(MARIA_HA *info,
     should be now. info->trn may be NULL in maria_chk.
   */
   if (info->trn == NULL)
+  {
     info->trn= &dummy_transaction_object;
+    info->trn_next= 0;
+    info->trn_prev= 0;
+  }
+
   DBUG_ASSERT(info->trn->rec_lsn == LSN_IMPOSSIBLE);
   share->page_type= PAGECACHE_PLAIN_PAGE;
   /* Functions below will pick up now_transactional and change callbacks */

@@ -602,7 +602,7 @@ struct st_maria_handler
 {
   MARIA_SHARE *s;			/* Shared between open:s */
   struct st_ma_transaction *trn;        /* Pointer to active transaction */
-  struct st_maria_handler *trn_next;
+  struct st_maria_handler *trn_next,**trn_prev;
   MARIA_STATUS_INFO *state, state_save;
   MARIA_STATUS_INFO *state_start;       /* State at start of transaction */
   MARIA_USED_TABLES *used_tables;

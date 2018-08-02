@@ -92,3 +92,14 @@ connection default;
 --disable_query_log
 eval use $default_db;
 --enable_query_log
+
+#
+# Ensure that we don't get warnings from mysql.priv (used by check_mysqld)
+#
+--disable_query_log
+--disable_warnings
+--disable_result_log
+select count(*) from mysql.proc;
+--enable_result_log
+--enable_warnings
+--enable_query_log
