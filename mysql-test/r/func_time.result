@@ -3260,3 +3260,31 @@ DROP TABLE t1,t2;
 #
 # End of 10.1 tests
 #
+#
+# MDEV-16217: Assertion `!table || (!table->read_set ||
+# bitmap_is_set(table->read_set, field_index))'
+# failed in Field_num::get_date
+#
+CREATE TABLE t1 (pk int  default 0, a1 date);
+INSERT INTO t1 VALUES (1,'1900-01-01'),(2,NULL),(3,NULL),(4,NULL);
+CREATE VIEW v1 AS
+SELECT t1.pk AS pk, t1.a1 AS a1 FROM t1;
+SELECT a1 BETWEEN (('2018-08-24')) AND (DEFAULT(pk)) FROM v1;
+a1 BETWEEN (('2018-08-24')) AND (DEFAULT(pk))
+0
+NULL
+NULL
+NULL
+SELECT a1 BETWEEN (('2018-08-24')) AND (~ DEFAULT(pk)) FROM v1;
+a1 BETWEEN (('2018-08-24')) AND (~ DEFAULT(pk))
+0
+NULL
+NULL
+NULL
+Warnings:
+Warning	1292	Incorrect datetime value: '18446744073709551615'
+DROP VIEW v1;
+DROP TABLE t1;
+#
+# End of 10.2 tests
+#

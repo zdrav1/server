@@ -8917,8 +8917,19 @@ bool Item_default_value::fix_fields(THD *thd, Item **items)
     fixed= 1;
     return FALSE;
   }
+
+  /*
+    DEFAULT() do not need table field so should not ask handler to bring
+    field value (mark column for read)
+  */
+  enum_mark_columns save_mark_used_columns= thd->mark_used_columns;
+  thd->mark_used_columns= MARK_COLUMNS_NONE;
   if (!arg->fixed && arg->fix_fields(thd, &arg))
+  {
+    thd->mark_used_columns= save_mark_used_columns;
     goto error;
+  }
+  thd->mark_used_columns= save_mark_used_columns;
 
 
   real_arg= arg->real_item();
@@ -8938,12 +8949,16 @@ bool Item_default_value::fix_fields(THD *thd, Item **items)
     goto error;
   memcpy((void *)def_field, (void *)field_arg->field,
          field_arg->field->size_of());
-  IF_DBUG(def_field->is_stat_field=1,); // a hack to fool ASSERT_COLUMN_MARKED_FOR_WRITE_OR_COMPUTED
+  // If non-constant default value expression
   if (def_field->default_value && def_field->default_value->flags)
   {
     uchar *newptr= (uchar*) thd->alloc(1+def_field->pack_length());
     if (!newptr)
       goto error;
+    /*
+      Even if DEFAULT() do not read tables fields, the default value
+      expression can do it.
+    */
     fix_session_vcol_expr_for_read(thd, def_field, def_field->default_value);
     if (thd->mark_used_columns != MARK_COLUMNS_NONE)
       def_field->default_value->expr->walk(&Item::register_field_in_read_map, 1, 0);
@@ -8970,6 +8985,14 @@ void Item_default_value::print(String *str, enum_query_type query_type)
     return;
   }
   str->append(STRING_WITH_LEN("default("));
+  /*
+    We take DEFAULT from a field so do not need it value in case of const
+    tables but its name so we set QT_NO_DATA_EXPANSION (as we print for
+    table definition, also we do not need table and database name)
+  */
+  query_type= (enum_query_type) (query_type | QT_NO_DATA_EXPANSION |
+                                  QT_ITEM_IDENT_SKIP_DB_NAMES |
+                                  QT_ITEM_IDENT_SKIP_TABLE_NAMES);
   arg->print(str, query_type);
   str->append(')');
 }
