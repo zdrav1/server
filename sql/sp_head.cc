@@ -4406,6 +4406,37 @@ sp_instr_agg_cfetch::execute(THD *thd, uint *nextp)
 {
   DBUG_ENTER("sp_instr_agg_cfetch::execute");
   int res= 0;
+  if (thd->server_status == SERVER_STATUS_LAST_ROW_SENT)
+  {
+    if (!thd->spcont->quit_func)
+    {
+      my_message(ER_SP_FETCH_NO_DATA,
+                ER_THD(thd, ER_SP_FETCH_NO_DATA), MYF(0));
+      thd->spcont->quit_func= TRUE;
+      thd->spcont->pause_state= FALSE;
+    }
+    else
+    {
+      /* 
+        required when we don't come across the return statement.
+        An example would be 
+        create aggregate function f1(x int) returns int 
+        begin
+          declare mini int default 0;
+          declare continue handler for not found set mini=-1;
+          LOOP
+            FETCH GROUP NEXT ROW;
+            set mini = mini + x;
+          END LOOP;
+          return 0;
+        end|
+        So here we would never execute the RETURN statement, so here
+        we force to quit the function execution.
+      */
+      thd->spcont->pause_state= TRUE; 
+    }
+    DBUG_RETURN(res);
+  }
   if (!thd->spcont->instr_ptr)
   {
     *nextp= m_ip+1;
@@ -4416,15 +4447,7 @@ sp_instr_agg_cfetch::execute(THD *thd, uint *nextp)
   else
   {
     thd->spcont->pause_state= FALSE;
-    if (thd->server_status == SERVER_STATUS_LAST_ROW_SENT)
-    {
-      my_message(ER_SP_FETCH_NO_DATA,
-                 ER_THD(thd, ER_SP_FETCH_NO_DATA), MYF(0));
-      res= -1;
-      thd->spcont->quit_func= TRUE;
-    }
-    else
-      *nextp= m_ip + 1;
+    *nextp= m_ip + 1;
   }
   DBUG_RETURN(res);
 }

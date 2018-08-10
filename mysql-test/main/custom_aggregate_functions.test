@@ -69,6 +69,7 @@ begin
     return (select count(*) + f2( i - 1) from t1 where id = i);
   end if;
 end|
+--error 1329
 select f2(1)|
 # Since currently recursive functions are disallowed ER_SP_NO_RECURSION
 # error will be returned, once we will allow them error about
@@ -964,4 +965,46 @@ select i, sum(i) from t1 group by i with rollup;
 
 # Cleanup
 drop function agg_sum;
+drop table t1;
+
+--echo #
+--echo # MDEV-16315: NOT FOUND condition not triggered in stored aggregate functions
+--echo #
+
+delimiter |;
+CREATE AGGREGATE FUNCTION test1(p_value TEXT)
+    RETURNS BOOL
+BEGIN
+    DECLARE CONTINUE HANDLER
+        FOR NOT FOUND
+    BEGIN
+        RETURN FALSE;
+    END;
+    FETCH GROUP NEXT ROW;
+    RETURN TRUE;
+END|
+
+delimiter ;|
+CREATE OR REPLACE TABLE t1 (n TEXT);
+SELECT test1(n) FROM t1;
+
+delimiter |;
+CREATE OR REPLACE AGGREGATE FUNCTION test2(p_value TEXT)
+         RETURNS BOOL
+     BEGIN
+         DECLARE CONTINUE HANDLER
+           FOR NOT FOUND
+         BEGIN
+            RETURN FALSE;
+         END;
+         FETCH GROUP NEXT ROW;
+         FETCH GROUP NEXT ROW;
+         FETCH GROUP NEXT ROW;
+         RETURN TRUE;
+    END|
+
+delimiter ;|
+SELECT test2(n) FROM t1;
+drop function test1;
+drop function test2;
 drop table t1;
