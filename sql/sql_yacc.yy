@@ -17448,6 +17448,7 @@ uninstall:
           UNINSTALL_SYM PLUGIN_SYM opt_if_exists ident
           {
             LEX *lex= Lex;
+            lex->check_opt.init();
             if (lex->add_create_options_with_check($3))
               MYSQL_YYABORT;
             lex->sql_command= SQLCOM_UNINSTALL_PLUGIN;
@@ -17456,6 +17457,7 @@ uninstall:
         | UNINSTALL_SYM SONAME_SYM opt_if_exists TEXT_STRING_sys
           {
             LEX *lex= Lex;
+            lex->check_opt.init();
             if (lex->add_create_options_with_check($3))
               MYSQL_YYABORT;
             lex->sql_command= SQLCOM_UNINSTALL_PLUGIN;
