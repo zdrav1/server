@@ -858,6 +858,7 @@ update_begin:
   */
   can_compare_record= records_are_comparable(table);
   explain->tracker.on_scan_init();
+  create_update_handler(thd, table);
 
   THD_STAGE_INFO(thd, stage_updating);
   while (!(error=info.read_record()) && !thd->killed)
@@ -1052,6 +1053,7 @@ update_begin:
       break;
     }
   }
+  delete_update_handler(thd, table);
   ANALYZE_STOP_TRACKING(&explain->command_tracker);
   table->auto_increment_field_not_null= FALSE;
   dup_key_found= 0;
@@ -2087,6 +2089,7 @@ multi_update::initialize_tables(JOIN *join)
 
     if (ignore)
       table->file->extra(HA_EXTRA_IGNORE_DUP_KEY);
+    create_update_handler(join->thd, table);
     if (table == main_table)			// First table in join
     {
       if (safe_update_on_fly(thd, join->join_tab, table_ref, all_tables))
@@ -2264,6 +2267,7 @@ multi_update::~multi_update()
   for (table= update_tables ; table; table= table->next_local)
   {
     table->table->no_keyread= table->table->no_cache= 0;
+    delete_update_handler(thd, table->table);
     if (ignore)
       table->table->file->extra(HA_EXTRA_NO_IGNORE_DUP_KEY);
   }

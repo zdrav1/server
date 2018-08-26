@@ -99,7 +99,8 @@ enum ha_key_alg {
   HA_KEY_ALG_BTREE=	1,		/* B-tree, default one          */
   HA_KEY_ALG_RTREE=	2,		/* R-tree, for spatial searches */
   HA_KEY_ALG_HASH=	3,		/* HASH keys (HEAP tables) */
-  HA_KEY_ALG_FULLTEXT=	4		/* FULLTEXT (MyISAM tables) */
+  HA_KEY_ALG_FULLTEXT= 4,   /* FULLTEXT (MyISAM tables) */
+  HA_KEY_ALG_LONG_HASH= 5   /* long BLOB keys */
 };
 
         /* Storage media types */ 
@@ -290,6 +291,11 @@ enum ha_base_keytype {
 #define HA_KEY_HAS_PART_KEY_SEG 65536
 /* Internal Flag Can be calcaluted */
 #define HA_INVISIBLE_KEY 2<<18
+/*
+   Some more flags for keys  these are not stored in
+   frm it is calculated on the fly in init_from_binary_frm_image
+*/
+#define HA_LONG_UNIQUE_HASH   2<<19
 	/* Automatic bits in key-flag */
 
 #define HA_SPACE_PACK_USED	 4	/* Test for if SPACE_PACK used */
@@ -317,6 +323,13 @@ enum ha_base_keytype {
 #define HA_BIT_PART		1024
 #define HA_CAN_MEMCMP           2048 /* internal, never stored in frm */
 
+/*
+  Used for key parts whole length is greater then > file->max_key_part_length
+  Only used for HA_LONG_UNIQUE_HASH keys
+*/ //TODO a better name ??
+#define HA_HASH_KEY_PART_FLAG   4096
+/* Field need to be frees externally */
+#define HA_FIELD_EX_FREED       8192
 	/* optionbits for database */
 #define HA_OPTION_PACK_RECORD		1U
 #define HA_OPTION_PACK_KEYS		2U

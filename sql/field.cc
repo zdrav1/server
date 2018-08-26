@@ -9822,7 +9822,7 @@ int Field_bit::key_cmp(const uchar *str, uint length)
 }
 
 
-int Field_bit::cmp_offset(uint row_offset)
+int Field_bit::cmp_offset(long row_offset)
 {
   if (bit_len)
   {
