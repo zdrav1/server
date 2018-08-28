@@ -1606,6 +1606,46 @@ drop table t1,t0;
 set histogram_size=@save_histogram_size;
 set optimizer_use_condition_selectivity=@save_optimizer_use_condition_selectivity;
 set use_stat_tables=@save_use_stat_tables;
+#
+# MDEV-15306: Wrong/Unexpected result with the value
+# optimizer_use_condition_selectivity set to 4
+#
+CREATE TABLE t1 (a INT);
+INSERT INTO t1 VALUES (1), (2), (3), (4), (5), (6), (7), (8), (9), (10);
+CREATE FUNCTION f1() RETURNS INT DETERMINISTIC
+BEGIN
+SET @cnt := @cnt + 1;
+RETURN 1;
+END;|
+set @save_optimizer_use_condition_selectivity=@@optimizer_use_condition_selectivity;
+set @save_use_stat_tables= @@use_stat_tables;
+set @@use_stat_tables='complementary';
+set @@optimizer_use_condition_selectivity=4;
+SET @cnt= 0;
+SELECT * FROM t1 WHERE a = f1();
+a
+1
+SELECT @cnt;
+@cnt
+1
+set @@use_stat_tables='preferably';
+analyze table t1 persistent for all;
+Table	Op	Msg_type	Msg_text
+test.t1	analyze	status	Engine-independent statistics collected
+test.t1	analyze	status	OK
+SET @cnt := 0;
+set @@optimizer_use_condition_selectivity=4;
+SELECT * FROM t1 WHERE a = f1();
+a
+1
+SELECT @cnt;
+@cnt
+2
+alter table  t1 force;
+set @@use_stat_tables= @save_use_stat_tables;
+set @@optimizer_use_condition_selectivity=@save_optimizer_use_condition_selectivity;
+drop table t1;
+drop function f1;
 set optimizer_switch=@save_optimizer_switch_for_selectivity_test;
 set @tmp_ust= @@use_stat_tables;
 set @tmp_oucs= @@optimizer_use_condition_selectivity;
