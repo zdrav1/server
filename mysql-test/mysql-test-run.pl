@@ -198,7 +198,6 @@ my @DEFAULT_SUITES= qw(
     unit-
     vcol-
     wsrep-
-    galera-
   );
 my $opt_suites;
 
