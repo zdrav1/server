@@ -8,7 +8,7 @@ my $exe_tokuftdump=
     ::mtr_exe_maybe_exists(
            ::vs_config_dirs('storage/tokudb/PerconaFT/tools', 'tokuftdump'),
            "$::path_client_bindir/tokuftdump",
-           "$::basedir/storage/tokudb/PerconaFT/tools/tokuftdump");
+           "$::bindir/storage/tokudb/PerconaFT/tools/tokuftdump");
 $ENV{'MYSQL_TOKUFTDUMP'}= ::native_path($exe_tokuftdump);
 
 #return "Not run for embedded server" if $::opt_embedded_server;
