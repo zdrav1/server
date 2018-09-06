@@ -50,6 +50,7 @@ Copyright (c) 2006, 2015, Percona and/or its affiliates. All rights reserved.
 //   Support more complicated update expressions
 //   Replace field_offset
 
+#if defined(TOKU_INCLUDE_UPSERT) && TOKU_INCLUDE_UPSERT
 // Debug function to dump an Item
 static void dump_item(Item* item) {
     fprintf(stderr, "%u", item->type());
@@ -202,7 +203,6 @@ static uint32_t blob_field_index(TABLE* table,
     return b_index;
 }
 
-#if defined(TOKU_INCLUDE_UPSERT) && TOKU_INCLUDE_UPSERT
 // Determine if an update operation can be offloaded to the storage engine.
 // The update operation consists of a list of update expressions
 // (fields[i] = values[i]), and a list of where conditions (conds).
@@ -259,7 +259,6 @@ exit:
 
     TOKUDB_HANDLER_DBUG_RETURN(error);
 }
-#endif  // defined(TOKU_INCLUDE_UPSERT) && TOKU_INCLUDE_UPSERT
 
 // Return true if an expression is a simple int expression or a simple function
 // of +- int expression.
@@ -570,7 +569,6 @@ static bool is_strict_mode(THD* thd) {
 #endif
 }
 
-#if defined(TOKU_INCLUDE_UPSERT) && TOKU_INCLUDE_UPSERT
 // Check if an update operation can be handled by this storage engine.
 // Return true if it can.
 bool ha_tokudb::check_fast_update(
@@ -609,7 +607,6 @@ bool ha_tokudb::check_fast_update(
 
     return true;
 }
-#endif  // defined(TOKU_INCLUDE_UPSERT) && TOKU_INCLUDE_UPSERT
 
 static void marshall_varchar_descriptor(
     tokudb::buffer& b,
@@ -831,7 +828,6 @@ static void count_update_types(
     }
 }
 
-#if defined(TOKU_INCLUDE_UPSERT) && TOKU_INCLUDE_UPSERT
 // Generate an update message for an update operation and send it into the
 // primary tree.  Return 0 if successful.
 int ha_tokudb::send_update_message(

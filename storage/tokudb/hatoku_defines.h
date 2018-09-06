@@ -98,7 +98,6 @@ Copyright (c) 2006, 2015, Percona and/or its affiliates. All rights reserved.
 #define TOKU_INCLUDE_DISCOVER_FRM 1
 #if defined(MARIADB_BASE_VERSION)
 #define TOKU_INCLUDE_EXTENDED_KEYS 1
-#define TOKU_INCLUDE_RFR 1
 #endif
 #define TOKU_INCLUDE_OPTION_STRUCTS 1
 #define TOKU_OPTIMIZE_WITH_RECREATE 1

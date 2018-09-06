@@ -8,10 +8,6 @@ foreach(tool ${tools})
 
   # detect when we are being built as a subproject
   if (DEFINED MYSQL_PROJECT_NAME_DOCSTRING)
-    # if we are compiling under a MySQL variant, this macro must be present
-    GET_MYSQL_VERSION()
-
-
     if ((CMAKE_BUILD_TYPE MATCHES "Debug") AND
         (CMAKE_CXX_FLAGS_DEBUG MATCHES " -DENABLED_DEBUG_SYNC"))
       target_link_libraries(${tool} sql)
