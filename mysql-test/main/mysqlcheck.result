@@ -2,57 +2,36 @@ call mtr.add_suppression("Invalid .old.. table or database name");
 DROP TABLE IF EXISTS t1, `t``1`, `t 1`, test.`t.1`, v1;
 drop view if exists t1, `t``1`, `t 1`, test.`t.1`, v1;
 drop database if exists client_test_db;
-mtr.global_suppressions                            Engine-independent statistics collected
-status   : OK
-mtr.test_suppressions                              Engine-independent statistics collected
-status   : OK
+mtr.global_suppressions                            OK
+mtr.test_suppressions                              OK
 mysql.column_stats                                 OK
-mysql.columns_priv                                 Engine-independent statistics collected
-status   : OK
-mysql.db                                           Engine-independent statistics collected
-status   : OK
+mysql.columns_priv                                 OK
+mysql.db                                           OK
 mysql.event                                        OK
-mysql.func                                         Engine-independent statistics collected
-status   : OK
-mysql.gtid_slave_pos                               Engine-independent statistics collected
-status   : OK
+mysql.func                                         OK
+mysql.gtid_slave_pos                               OK
 mysql.help_category                                OK
 mysql.help_keyword                                 OK
 mysql.help_relation                                OK
 mysql.help_topic                                   OK
-mysql.host                                         Engine-independent statistics collected
-status   : OK
 mysql.index_stats                                  OK
-mysql.innodb_index_stats                           Engine-independent statistics collected
-status   : OK
-mysql.innodb_table_stats                           Engine-independent statistics collected
-status   : OK
-mysql.plugin                                       Engine-independent statistics collected
-status   : OK
+mysql.innodb_index_stats                           OK
+mysql.innodb_table_stats                           OK
+mysql.plugin                                       OK
 mysql.proc                                         OK
-mysql.procs_priv                                   Engine-independent statistics collected
-status   : OK
-mysql.proxies_priv                                 Engine-independent statistics collected
-status   : OK
-mysql.roles_mapping                                Engine-independent statistics collected
-status   : OK
-mysql.servers                                      Engine-independent statistics collected
-status   : OK
+mysql.procs_priv                                   OK
+mysql.proxies_priv                                 OK
+mysql.roles_mapping                                OK
+mysql.servers                                      OK
 mysql.table_stats                                  OK
-mysql.tables_priv                                  Engine-independent statistics collected
-status   : OK
+mysql.tables_priv                                  OK
 mysql.time_zone                                    OK
 mysql.time_zone_leap_second                        OK
 mysql.time_zone_name                               OK
 mysql.time_zone_transition                         OK
 mysql.time_zone_transition_type                    OK
 mysql.transaction_registry                         OK
-mysql.user                                         Engine-independent statistics collected
-Warning  : Engine-independent statistics are not collected for column 'ssl_cipher'
-Warning  : Engine-independent statistics are not collected for column 'x509_issuer'
-Warning  : Engine-independent statistics are not collected for column 'x509_subject'
-Warning  : Engine-independent statistics are not collected for column 'authentication_string'
-status   : OK
+mysql.user                                         OK
 mtr.global_suppressions                            Table is already up to date
 mtr.test_suppressions                              Table is already up to date
 mysql.column_stats                                 OK
@@ -65,7 +44,6 @@ mysql.help_category                                OK
 mysql.help_keyword                                 OK
 mysql.help_relation                                OK
 mysql.help_topic                                   OK
-mysql.host                                         OK
 mysql.index_stats                                  OK
 mysql.innodb_index_stats
 note     : Table does not support optimize, doing recreate + analyze instead
@@ -91,53 +69,34 @@ note     : Table does not support optimize, doing recreate + analyze instead
 status   : OK
 mysql.user                                         OK
 mysql.column_stats                                 OK
-mysql.columns_priv                                 Engine-independent statistics collected
-status   : OK
-mysql.db                                           Engine-independent statistics collected
-status   : OK
+mysql.columns_priv                                 OK
+mysql.db                                           OK
 mysql.event                                        OK
-mysql.func                                         Engine-independent statistics collected
-status   : OK
-mysql.gtid_slave_pos                               Engine-independent statistics collected
-status   : OK
+mysql.func                                         OK
+mysql.gtid_slave_pos                               OK
 mysql.help_category                                OK
 mysql.help_keyword                                 OK
 mysql.help_relation                                OK
 mysql.help_topic                                   OK
-mysql.host                                         Engine-independent statistics collected
-status   : OK
 mysql.index_stats                                  OK
-mysql.innodb_index_stats                           Engine-independent statistics collected
-status   : OK
-mysql.innodb_table_stats                           Engine-independent statistics collected
-status   : OK
-mysql.plugin                                       Engine-independent statistics collected
-status   : OK
+mysql.innodb_index_stats                           OK
+mysql.innodb_table_stats                           OK
+mysql.plugin                                       OK
 mysql.proc                                         OK
-mysql.procs_priv                                   Engine-independent statistics collected
-status   : OK
-mysql.proxies_priv                                 Engine-independent statistics collected
-status   : OK
-mysql.roles_mapping                                Engine-independent statistics collected
-status   : OK
-mysql.servers                                      Engine-independent statistics collected
-status   : OK
+mysql.procs_priv                                   OK
+mysql.proxies_priv                                 OK
+mysql.roles_mapping                                OK
+mysql.servers                                      OK
 mysql.table_stats                                  OK
-mysql.tables_priv                                  Engine-independent statistics collected
-status   : OK
+mysql.tables_priv                                  OK
 mysql.time_zone                                    OK
 mysql.time_zone_leap_second                        OK
 mysql.time_zone_name                               OK
 mysql.time_zone_transition                         OK
 mysql.time_zone_transition_type                    OK
 mysql.transaction_registry                         OK
-mysql.user                                         Engine-independent statistics collected
-Warning  : Engine-independent statistics are not collected for column 'ssl_cipher'
-Warning  : Engine-independent statistics are not collected for column 'x509_issuer'
-Warning  : Engine-independent statistics are not collected for column 'x509_subject'
-Warning  : Engine-independent statistics are not collected for column 'authentication_string'
-status   : OK
-mysql.column_stats                                 OK
+mysql.user                                         OK
+mysql.column_stats                                 Table is already up to date
 mysql.columns_priv                                 Table is already up to date
 mysql.db                                           Table is already up to date
 mysql.event                                        Table is already up to date
@@ -147,8 +106,7 @@ mysql.help_category                                Table is already up to date
 mysql.help_keyword                                 Table is already up to date
 mysql.help_relation                                Table is already up to date
 mysql.help_topic                                   Table is already up to date
-mysql.host                                         Table is already up to date
-mysql.index_stats                                  OK
+mysql.index_stats                                  Table is already up to date
 mysql.innodb_index_stats
 note     : Table does not support optimize, doing recreate + analyze instead
 status   : OK
@@ -161,7 +119,7 @@ mysql.procs_priv                                   Table is already up to date
 mysql.proxies_priv                                 Table is already up to date
 mysql.roles_mapping                                Table is already up to date
 mysql.servers                                      Table is already up to date
-mysql.table_stats                                  OK
+mysql.table_stats                                  Table is already up to date
 mysql.tables_priv                                  Table is already up to date
 mysql.time_zone                                    Table is already up to date
 mysql.time_zone_leap_second                        Table is already up to date
@@ -174,11 +132,9 @@ status   : OK
 mysql.user                                         Table is already up to date
 create table t1 (a int) engine=myisam;
 create view v1 as select * from t1;
-test.t1                                            Engine-independent statistics collected
-status   : OK
+test.t1                                            OK
 test.t1                                            Table is already up to date
-test.t1                                            Engine-independent statistics collected
-status   : OK
+test.t1                                            OK
 test.t1                                            Table is already up to date
 drop view v1;
 drop table t1;
@@ -478,7 +434,6 @@ mysql.help_category                                Table is already up to date
 mysql.help_keyword                                 Table is already up to date
 mysql.help_relation                                Table is already up to date
 mysql.help_topic                                   Table is already up to date
-mysql.host                                         Table is already up to date
 mysql.index_stats                                  Table is already up to date
 mysql.innodb_index_stats                           OK
 mysql.innodb_table_stats                           OK
@@ -515,161 +470,6 @@ create table t1(a int);
 insert into t1 (a) values (1), (2), (3);
 select * from mysql.column_stats;
 db_name	table_name	column_name	min_value	max_value	nulls_ratio	avg_length	avg_frequency	hist_size	hist_type	histogram
-mtr	global_suppressions	pattern	.SELECT UNIX_TIMESTAMP... failed on master	You have forced lower_case_table_names to 0 through a command-line option	0.0000	46.3300	1.0000	0	NULL	NULL
-mtr	test_suppressions	pattern	Invalid .old.. table or database name	Invalid .old.. table or database name	0.0000	37.0000	1.0000	0	NULL	NULL
-mysql	columns_priv	Host	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	columns_priv	Db	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	columns_priv	User	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	columns_priv	Table_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	columns_priv	Column_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	columns_priv	Timestamp	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	columns_priv	Column_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	db	Host	%	%	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Db	test	test\_%	0.0000	5.5000	1.0000	0	NULL	NULL
-mysql	db	User			0.0000	0.0000	2.0000	0	NULL	NULL
-mysql	db	Select_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Insert_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Update_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Delete_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Create_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Drop_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Grant_priv	N	N	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	References_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Index_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Alter_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Create_tmp_table_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Lock_tables_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Create_view_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Show_view_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Create_routine_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Alter_routine_priv	N	N	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Execute_priv	N	N	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Event_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Trigger_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	db	Delete_history_priv	Y	Y	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	func	name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	func	ret	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	func	dl	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	func	type	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	gtid_slave_pos	domain_id	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	gtid_slave_pos	sub_id	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	gtid_slave_pos	server_id	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	gtid_slave_pos	seq_no	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Host	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Db	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Select_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Insert_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Update_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Delete_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Create_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Drop_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Grant_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	References_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Index_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Alter_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Create_tmp_table_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Lock_tables_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Create_view_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Show_view_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Create_routine_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Alter_routine_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Execute_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	host	Trigger_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	database_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	table_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	index_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	last_update	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	stat_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	stat_value	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	sample_size	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_index_stats	stat_description	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_table_stats	database_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_table_stats	table_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_table_stats	last_update	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_table_stats	n_rows	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_table_stats	clustered_index_size	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	innodb_table_stats	sum_of_other_index_sizes	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	plugin	name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	plugin	dl	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Host	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Db	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	User	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Routine_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Routine_type	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Grantor	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Proc_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	procs_priv	Timestamp	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	proxies_priv	Host	localhost	varuns-macbook-pro.local	0.0000	16.5000	1.0000	0	NULL	NULL
-mysql	proxies_priv	User	root	root	0.0000	4.0000	2.0000	0	NULL	NULL
-mysql	proxies_priv	Proxied_host			0.0000	0.0000	2.0000	0	NULL	NULL
-mysql	proxies_priv	Proxied_user			0.0000	0.0000	2.0000	0	NULL	NULL
-mysql	proxies_priv	With_grant	1	1	0.0000	1.0000	2.0000	0	NULL	NULL
-mysql	proxies_priv	Grantor			0.0000	423.0000	2.0000	0	NULL	NULL
-mysql	proxies_priv	Timestamp	2018-08-22 16:16:10	2018-08-22 16:16:10	0.0000	4.0000	2.0000	0	NULL	NULL
-mysql	roles_mapping	Host	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	roles_mapping	User	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	roles_mapping	Role	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	roles_mapping	Admin_option	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Server_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Host	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Db	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Username	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Password	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Port	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Socket	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Wrapper	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	servers	Owner	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Host	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Db	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	User	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Table_name	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Grantor	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Timestamp	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Table_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	tables_priv	Column_priv	NULL	NULL	NULL	NULL	NULL	0	NULL	NULL
-mysql	user	Host	127.0.0.1	varuns-macbook-pro.local	0.0000	11.2500	1.0000	0	NULL	NULL
-mysql	user	User	root	root	0.0000	4.0000	4.0000	0	NULL	NULL
-mysql	user	Password			0.0000	0.0000	4.0000	0	NULL	NULL
-mysql	user	Select_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Insert_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Update_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Delete_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Create_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Drop_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Reload_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Shutdown_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Process_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	File_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Grant_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	References_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Index_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Alter_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Show_db_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Super_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Create_tmp_table_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Lock_tables_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Execute_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Repl_slave_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Repl_client_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Create_view_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Show_view_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Create_routine_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Alter_routine_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Create_user_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Event_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Trigger_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Create_tablespace_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	Delete_history_priv	Y	Y	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	ssl_type			0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	max_questions	0	0	0.0000	4.0000	4.0000	0	NULL	NULL
-mysql	user	max_updates	0	0	0.0000	4.0000	4.0000	0	NULL	NULL
-mysql	user	max_connections	0	0	0.0000	4.0000	4.0000	0	NULL	NULL
-mysql	user	max_user_connections	0	0	0.0000	4.0000	4.0000	0	NULL	NULL
-mysql	user	plugin			0.0000	0.0000	4.0000	0	NULL	NULL
-mysql	user	password_expired	N	N	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	is_role	N	N	0.0000	1.0000	4.0000	0	NULL	NULL
-mysql	user	default_role			0.0000	0.0000	4.0000	0	NULL	NULL
-mysql	user	max_statement_time	0.000000	0.000000	0.0000	6.0000	4.0000	0	NULL	NULL
 test.t1                                            Engine-independent statistics collected
 status   : OK
 select * from mysql.column_stats where db_name = 'test' and table_name = 't1';
