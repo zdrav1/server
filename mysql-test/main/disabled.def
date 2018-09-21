@@ -22,3 +22,9 @@ innodb_bug12902967       : broken upstream
 file_contents            : MDEV-6526 these files are not installed anymore
 max_statement_time       : cannot possibly work, depends on timing
 connect-abstract         : waiting for libmariadb update
+mysqlcheck               : special tables like proxy , host specific to a system are shown
+flush_read_lock          : special tables like proxy , host specific to a system are shown
+index_merge_myisam       : enable after MDEV-16695 is fixed
+index_merge_innodb       : enable after MDEV-16695 is fixed
+partition_explicit_prune : enable after MDEV-17032 is fixed
+column_compression_parts : enable after MDEV-17032 is fixed
