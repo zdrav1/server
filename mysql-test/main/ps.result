@@ -2149,7 +2149,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2163,7 +2162,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2177,7 +2175,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2191,7 +2188,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2210,7 +2206,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2225,7 +2220,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2239,7 +2233,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0
@@ -2253,7 +2246,6 @@ show open tables from mysql;
 Database	Table	In_use	Name_locked
 mysql	column_stats	0	0
 mysql	general_log	0	0
-mysql	host	0	0
 mysql	index_stats	0	0
 mysql	table_stats	0	0
 mysql	user	0	0

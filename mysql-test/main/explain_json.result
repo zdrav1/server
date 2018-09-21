@@ -1067,7 +1067,7 @@ EXPLAIN
       "key_length": "163",
       "used_key_parts": ["a1", "a2", "b", "c"],
       "rows": 65,
-      "filtered": 0.7692,
+      "filtered": 100,
       "attached_condition": "t1.b = 'a' and t1.c = 'i121' and t1.a2 >= 'b'",
       "using_index_for_group_by": "scanning"
     }
