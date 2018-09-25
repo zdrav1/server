@@ -375,6 +375,13 @@ retry_purge_sec:
 
 	ut_ad(mtr.has_committed());
 
+	/* If the virtual column info is not used then reset the virtual column
+	info. */
+	if (node->vcol_info.is_requested()
+	    && !node->vcol_info.is_used()) {
+		node->vcol_info.reset();
+	}
+
 	if (store_cur && !row_purge_restore_vsec_cur(
 		    node, index, sec_pcur, sec_mtr, is_tree)) {
 		return false;
@@ -1017,8 +1024,15 @@ try_again:
 			goto try_again;
 		}
 
+		TABLE*	maria_table = NULL;
+		node->vcol_info.set_requested();
+
 		/* Initialize the template for the table */
-		innobase_init_vc_templ(node->table);
+		innobase_init_vc_templ(
+			node->table, &maria_table);
+
+		node->vcol_info.set_used();
+		node->vcol_info.set_table(maria_table);
 	}
 
 	clust_index = dict_table_get_first_index(node->table);

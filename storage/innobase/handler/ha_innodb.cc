@@ -21419,10 +21419,12 @@ static TABLE* innodb_find_table_for_vc(THD* thd, dict_table_t* table)
 }
 
 /** Get the computed value by supplying the base column values.
-@param[in,out]	table	table whose virtual column template to be built */
+@param[in,out]	table		table whose virtual column template to be built
+@param[in,out]	maria_table	mariadb table object */
 void
 innobase_init_vc_templ(
-	dict_table_t*	table)
+	dict_table_t*	table,
+	TABLE**		maria_table)
 {
 	if (table->vc_templ != NULL) {
 		return;
@@ -21435,6 +21437,10 @@ innobase_init_vc_templ(
 	ut_ad(mysql_table);
 	if (!mysql_table) {
 		return;
+	}
+
+	if (maria_table != NULL) {
+		*maria_table = mysql_table;
 	}
 
 	mutex_enter(&dict_sys->mutex);

@@ -914,10 +914,13 @@ innobase_get_computed_value(
 	dict_foreign_t*		foreign);
 
 /** Get the computed value by supplying the base column values.
-@param[in,out]	table	the table whose virtual column template to be built */
+@param[in,out]	table		the table whose virtual column
+				template to be built
+@param[in,out]	maria_table	mariadb table object */
 void
 innobase_init_vc_templ(
-	dict_table_t*	table);
+	dict_table_t*	table,
+	TABLE**		maria_table=NULL);
 
 /** Change dbname and table name in table->vc_templ.
 @param[in,out]	table	the table whose virtual column template
