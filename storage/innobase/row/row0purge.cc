@@ -1033,6 +1033,7 @@ try_again:
 
 		node->vcol_info.set_used();
 		node->vcol_info.set_table(maria_table);
+		node->vcol_info.set_used();
 	}
 
 	clust_index = dict_table_get_first_index(node->table);
