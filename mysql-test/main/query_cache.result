@@ -608,12 +608,12 @@ use mysql;
 select * from db;
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	1
 use test;
 select * from mysql.db;
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 create table t1(id int auto_increment primary key);
 insert into t1 values (NULL), (NULL), (NULL);
 select * from t1 where id=2;
@@ -630,11 +630,11 @@ select * from t1;
 word
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	1
+Qcache_queries_in_cache	3
 load data infile 'MYSQLTEST_VARDIR/std_data/words.dat' into table t1;
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 select count(*) from t1;
 count(*)
 70
@@ -643,20 +643,20 @@ create table t1 (a int);
 insert into t1 values (1),(2),(3);
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 select * from t1 into outfile "query_cache.out.file";
 select * from t1 into outfile "query_cache.out.file";
 ERROR HY000: File 'query_cache.out.file' already exists
 select * from t1 limit 1 into dumpfile "query_cache.dump.file";
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 drop table t1;
 create table t1 (a int);
 insert into t1 values (1),(2);
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 select * from t1;
 a
 1
@@ -667,7 +667,7 @@ a
 1
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	2
+Qcache_queries_in_cache	4
 SET SQL_SELECT_LIMIT=DEFAULT;
 drop table t1;
 flush query cache;

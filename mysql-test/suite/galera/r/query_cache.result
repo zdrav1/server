@@ -1220,7 +1220,7 @@ use mysql;
 select * from db;
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	1
 show status like "Qcache_hits";
 Variable_name	Value
 Qcache_hits	12
@@ -1228,7 +1228,7 @@ use test;
 select * from mysql.db;
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 show status like "Qcache_hits";
 Variable_name	Value
 Qcache_hits	12
@@ -1243,7 +1243,7 @@ id
 3
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	1
+Qcache_queries_in_cache	3
 show status like "Qcache_hits";
 Variable_name	Value
 Qcache_hits	12
@@ -1267,7 +1267,7 @@ select * from t1;
 ERROR 42S02: Table 'test.t1' doesn't exist
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
-Qcache_queries_in_cache	0
+Qcache_queries_in_cache	2
 show status like "Qcache_hits";
 Variable_name	Value
 Qcache_hits	12
@@ -1347,7 +1347,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	36
+Qcache_inserts	38
 drop table t1;
 #
 # Test of SQL_SELECT_LIMIT
@@ -1378,7 +1378,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	38
+Qcache_inserts	40
 SET SQL_SELECT_LIMIT=DEFAULT;
 # On node-2
 connection node_2;
@@ -1425,7 +1425,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	40
+Qcache_inserts	42
 lock table t1 write, t2 read;
 show status like "Qcache_queries_in_cache";
 Variable_name	Value
@@ -1451,7 +1451,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	41
+Qcache_inserts	43
 unlock table;
 drop view v1;
 set query_cache_wlock_invalidate=default;
@@ -1533,7 +1533,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	43
+Qcache_inserts	45
 set collation_connection=koi8r_bin;
 SELECT a,'Â','â'='Â' FROM t1;
 a	Â	'â'='Â'
@@ -1547,7 +1547,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	44
+Qcache_inserts	46
 set character_set_client=cp1251;
 SELECT a,'Â','â'='Â' FROM t1;
 a	�?	'�?'='�?'
@@ -1561,7 +1561,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	45
+Qcache_inserts	47
 set character_set_results=cp1251;
 SELECT a,'Â','â'='Â' FROM t1;
 a	�?	'â'='Â'
@@ -1575,7 +1575,7 @@ Variable_name	Value
 Qcache_hits	12
 show status like "Qcache_inserts";
 Variable_name	Value
-Qcache_inserts	46
+Qcache_inserts	48
 SET NAMES default;
 # On node-2
 connection node_2;
