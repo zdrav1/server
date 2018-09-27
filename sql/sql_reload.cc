@@ -297,7 +297,7 @@ bool reload_acl_and_cache(THD *thd, unsigned long long options,
                 t->next_local= t->next_global;
               else
               {
-                my_error(err, MYF(0), t->table_name);
+                my_error(err, MYF(0), t->table_name.str);
                 return 1;
               }
             }
