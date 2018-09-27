@@ -324,7 +324,7 @@ TABLE_SHARE *alloc_table_share(const char *db, const char *table_name,
     share->can_do_row_logging= 1;
     if (share->table_category == TABLE_CATEGORY_LOG)
       share->no_replicate= 1;
-    if (my_strnncoll(table_alias_charset, (uchar*) db, 6,
+    if (my_strnncoll(table_alias_charset, (uchar*) db, strlen(db),
                      (const uchar*) "mysql", 6) == 0)
       share->not_usable_by_query_cache= 1;
 
